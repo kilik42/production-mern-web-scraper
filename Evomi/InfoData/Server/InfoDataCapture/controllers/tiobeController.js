@@ -5,6 +5,7 @@ const getTiobeRankings = async (req, res) => {
   try {
     const cachedRankings = await languageRankings.find().sort({ ranking: 1 }); // Check for cached rankings in the database, sorted by updatedAt in descending order and limited to 1 result
     if (
+        // Check if cached rankings exist and are less than 24 hours old
       cachedRankings.length > 0 &&
       new Date() - cachedRankings[0].updatedAt < 24 * 60 * 60 * 1000
     ) {
@@ -13,7 +14,7 @@ const getTiobeRankings = async (req, res) => {
         source: "database",
         data: cachedRankings[0],
       });
-      const scrapedRankings = await tiobeService.fetchTiobeRankings(); // Fetch the latest TIOBE rankings using the service function
+      const scrapedRankings = await fetchTiobeRankings(); // Fetch the latest TIOBE rankings using the service function
       if (scrapedRankings.length > 0) {
         // If the fetch was successful
         await languageRankings.insertMany(scrapedRankings); // Save the new rankings to the database
