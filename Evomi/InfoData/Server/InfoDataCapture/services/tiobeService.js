@@ -37,9 +37,46 @@ const parseTiobeHTML = (html) => {
     return rankingArray;    // Return the array of language data
 };
 
+// function to fetch TIOBE rankings and save them to the database this does not use envomi but is used in the controller to fetch data and save it to the database
+// const fetchTiobeRankings = async () => {
+//     try {
+//         const response = await axios.get('https://www.tiobe.com/tiobe-index/'); // Fetch the TIOBE index page
+//         const html = response.data; // Get the HTML content of the page
+//         const languages = parseTiobeHTML(html); // Parse the HTML to extract language data
+//         return languages; // Return the array of language data
+//     } catch (error) {
+//         console.error('Error fetching TIOBE rankings:', error);     
+//         throw new Error('Failed to fetch TIOBE rankings'); // Throw an error if the fetch fails
+//     }
+// };
+
+// module.exports = { fetchTiobeRankings }; // Export the fetchTiobeRankings function for use in other modules
+    
 
 
+// envomi version of the function to fetch TIOBE rankings and save them to the database this is used in the controller to fetch data and save it to the database
+const fetchTiobeRankings = async () => {
+    try {
+        const payload = {
+            url: 'https://www.tiobe.com/tiobe-index/', // URL to fetch the TIOBE index page
+            method: 'GET', // HTTP method to use for the request
+        };
+        const response = await axios.post(process.env.EVOMI_ENDPOINT, payload, {
+            headers: {
+                // 'Content-Type': 'application/json', // Set the content type to JSON
+                'x-api-key': process.env.EVOMI_API_KEY, // Include the API key for authentication
+            },
+        }); // Send a POST request to the Evomi endpoint with the payload
+        const html = response.data;
+        const languages = parseTiobeHTML(html); // Parse the HTML to extract language data
+        return languages; // Return the array of language data
+    } catch (error) {
+        console.error('Error fetching TIOBE rankings:', error);     
+        throw new Error('Failed to fetch TIOBE rankings'); // Throw an error if the fetch fails
+    }   
+};
 
+module.exports = { fetchTiobeRankings }; // Export the fetchTiobeRankings function for use in other modules 
 
 
 // Function to fetch TIOBE rankings and save them to the database
