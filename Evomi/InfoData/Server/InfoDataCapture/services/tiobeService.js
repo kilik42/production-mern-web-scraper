@@ -2,19 +2,6 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const Language = require('../models/language'); // Import the Language model
 
-// const parseTiobeHTML = (html) => {
-//     const $ = cheerio.load(html); // Load the HTML into Cheerio for parsing
-//     const languages = [];   // Initialize an array to hold the language data
-//     $('#top20 tbody tr').each((index, element) => {
-//         const ranking = parseInt($(element).find('td').eq(0).text().trim()); // Get the ranking from the first column and convert it to an integer
-//         const pLang = $(element).find('td').eq(1).text().trim(); // Get the programming language name from the second column and trim whitespace
-//         const imagePath = $(element).find('td').eq(1).find('img').attr('src'); // Get the image path for the language
-//         languages.push({ ranking, pLang, imagePath }); // Add the language data to the array
-//         const language = new Language({ ranking, pLang, imagePath }); // Create a new Language document using the Language model
-//         language.save(); // Save the language document to the database
-//     });
-//     return languages;
-// };
 
 const parseTiobeHTML = (html) => {
     const $ = cheerio.load(html);
@@ -37,21 +24,6 @@ const parseTiobeHTML = (html) => {
     return rankingArray;    // Return the array of language data
 };
 
-// function to fetch TIOBE rankings and save them to the database this does not use envomi but is used in the controller to fetch data and save it to the database
-// const fetchTiobeRankings = async () => {
-//     try {
-//         const response = await axios.get('https://www.tiobe.com/tiobe-index/'); // Fetch the TIOBE index page
-//         const html = response.data; // Get the HTML content of the page
-//         const languages = parseTiobeHTML(html); // Parse the HTML to extract language data
-//         return languages; // Return the array of language data
-//     } catch (error) {
-//         console.error('Error fetching TIOBE rankings:', error);     
-//         throw new Error('Failed to fetch TIOBE rankings'); // Throw an error if the fetch fails
-//     }
-// };
-
-// module.exports = { fetchTiobeRankings }; // Export the fetchTiobeRankings function for use in other modules
-    
 
 
 // envomi version of the function to fetch TIOBE rankings and save them to the database this is used in the controller to fetch data and save it to the database
@@ -77,6 +49,62 @@ const fetchTiobeRankings = async () => {
 };
 
 module.exports = { fetchTiobeRankings }; // Export the fetchTiobeRankings function for use in other modules 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const parseTiobeHTML = (html) => {
+//     const $ = cheerio.load(html); // Load the HTML into Cheerio for parsing
+//     const languages = [];   // Initialize an array to hold the language data
+//     $('#top20 tbody tr').each((index, element) => {
+//         const ranking = parseInt($(element).find('td').eq(0).text().trim()); // Get the ranking from the first column and convert it to an integer
+//         const pLang = $(element).find('td').eq(1).text().trim(); // Get the programming language name from the second column and trim whitespace
+//         const imagePath = $(element).find('td').eq(1).find('img').attr('src'); // Get the image path for the language
+//         languages.push({ ranking, pLang, imagePath }); // Add the language data to the array
+//         const language = new Language({ ranking, pLang, imagePath }); // Create a new Language document using the Language model
+//         language.save(); // Save the language document to the database
+//     });
+//     return languages;
+// };
+
+
+// function to fetch TIOBE rankings and save them to the database this does not use envomi but is used in the controller to fetch data and save it to the database
+// const fetchTiobeRankings = async () => {
+//     try {
+//         const response = await axios.get('https://www.tiobe.com/tiobe-index/'); // Fetch the TIOBE index page
+//         const html = response.data; // Get the HTML content of the page
+//         const languages = parseTiobeHTML(html); // Parse the HTML to extract language data
+//         return languages; // Return the array of language data
+//     } catch (error) {
+//         console.error('Error fetching TIOBE rankings:', error);     
+//         throw new Error('Failed to fetch TIOBE rankings'); // Throw an error if the fetch fails
+//     }
+// };
+
+// module.exports = { fetchTiobeRankings }; // Export the fetchTiobeRankings function for use in other modules
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Function to fetch TIOBE rankings and save them to the database
